@@ -1,0 +1,19 @@
+# Distribution
+dist/js
+dist/css
+dist/images
+dist/bower_components
+dist/robots.txt
+src/static/js/elm.js
+
+# elm-package generated files
+elm-stuff
+
+# elm-repl generated files
+repl-temp-*
+
+# Dependency directories
+node_modules
+
+# Desktop Services Store on macOS
+.DS_Store
