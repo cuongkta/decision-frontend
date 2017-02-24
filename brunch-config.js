@@ -75,7 +75,16 @@ exports.config = {
             makeParameters: [
                     "--warn"
             ]
+    },
+    sass: {
+      options: {
+        includePaths: ["src/static/bootstrap/scss"],
+        precision: 8,
+        allowCache: true,
+        modules: true
+      }
     }
+
     /*,
     sass:{
       mode: "native",
