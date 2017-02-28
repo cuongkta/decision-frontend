@@ -57,7 +57,7 @@ exports.config = {
             // `elm make` handles all elm dependencies (required)
             // relative to `elmFolder`
             mainModules: [
-                    'src/Main.elm'
+                    'src/elm/Main.elm'
             ],
 
             // Defaults to 'js/' folder in paths.public (optional)
