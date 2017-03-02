@@ -1,54 +1,70 @@
 module Main exposing (..)
 
-import Html exposing (Html, text, div, span, a, nav, form, h3, h4, input, p, img, h1, h2, select, option, node, button, ul, li)
-import Html.Attributes exposing (attribute, style, id, class, src, href, placeholder, style, class, value, alt, selected)
+import Navigation
+import View
+import Update
+import Model exposing (Model)
+import Route
+import Msg exposing (Msg(..))
+import Transit
+import Translation.Utils exposing (Language(..))
+import String
+import Decisions.Msg exposing (DecisionMsg(..))
+import Translation.Utils exposing (Language(..))
 
 
-main : Html.Html msg
+type alias ProgramFlags =
+    { token : Maybe String
+    , language : String
+    }
+
+
+main : Program ProgramFlags Model Msg
 main =
-    div []
-        [ nav [ class "navbar navbar-toggleable-md navbar-inverse bg-inverse mb-4" ]
-            [ button [ attribute "aria-controls" "navbarCollapse", attribute "aria-expanded" "false", attribute "aria-label" "Toggle navigation", class "navbar-toggler navbar-toggler-right", attribute "data-target" "#navbarCollapse", attribute "data-toggle" "collapse" ]
-                [ span [ class "navbar-toggler-icon" ]
-                    []
-                ]
-            , a [ class "navbar-brand", href "#" ]
-                [ text "Top navbar" ]
-            , div [ class "collapse navbar-collapse", id "navbarCollapse" ]
-                [ ul [ class "navbar-nav mr-auto" ]
-                    [ li [ class "nav-item active" ]
-                        [ a [ class "nav-link", href "#" ]
-                            [ text "Home "
-                            , span [ class "sr-only" ]
-                                [ text "(current)" ]
-                            ]
-                        ]
-                    , li [ class "nav-item" ]
-                        [ a [ class "nav-link", href "#" ]
-                            [ text "Link" ]
-                        ]
-                    , li [ class "nav-item" ]
-                        [ a [ class "nav-link disabled", href "#" ]
-                            [ text "Disabled" ]
-                        ]
-                    ]
-                , form [ class "form-inline mt-2 mt-md-0" ]
-                    [ input [ class "form-control mr-sm-2", placeholder "Search" ]
-                        []
-                    , button [ class "btn btn-outline-success my-2 my-sm-0" ]
-                        [ text "Search" ]
-                    ]
-                ]
-            ]
-        , div
-            [ class "container" ]
-            [ div [ class "jumbotron" ]
-                [ h1 []
-                    [ text "Navbar example" ]
-                , p [ class "lead" ]
-                    [ text "This example is a quick exercise to illustrate how the top-aligned navbar works. As you scroll, this navbar remains in its original position and moves with the rest of the page." ]
-                , a [ class "btn btn-lg btn-primary", href "../../components/navbar/", attribute "role" "button" ]
-                    [ text "View navbar docs &raquo;" ]
-                ]
-            ]
+    Navigation.programWithFlags UrlChange
+        { init = init
+        , update = Update.update
+        , view = View.view
+        , subscriptions = subscriptions
+        }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ Transit.subscriptions TransitMsg model
+        , Sub.map DecisionMsg_ (Transit.subscriptions TransitDecisionMsg model.decisions) {- , Update.storageInput Set -}
         ]
+
+
+init : ProgramFlags -> Navigation.Location -> ( Model, Cmd Msg )
+init programFlags location =
+    let
+        router =
+            Route.locFor location
+
+        initialModel =
+            Model.initialModel router
+
+        initialLanguage =
+            initLanguage programFlags.language
+    in
+        --model ! Util.cmdsForModelRoute model
+        case programFlags.token of
+            Nothing ->
+                Update.urlUpdate location <| { initialModel | currentLanguage = initialLanguage }
+
+            Just token ->
+                Update.urlUpdate location <| { initialModel | token = token }
+
+
+initLanguage : String -> Language
+initLanguage lang =
+    if String.startsWith "fr" lang then
+        French
+    else if String.startsWith "de" lang then
+        German
+    else if String.startsWith "it" lang then
+        Italian
+    else
+        English
