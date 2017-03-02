@@ -24,7 +24,7 @@ urlFor loc =
         url =
             case loc of
                 Home ->
-                    "/initiatives"
+                    ""
 
                 Users ->
                     "/users"

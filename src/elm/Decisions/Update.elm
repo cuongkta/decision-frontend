@@ -15,5 +15,13 @@ update msg parentModel model =
         TransitDecisionMsg transitMsg ->
             Transit.tick TransitDecisionMsg transitMsg model
 
+        GotUsers result ->
+            case result of
+                Result.Ok users ->
+                    model ! []
+
+                Result.Err err ->
+                    model ! []
+
         Decisions.Msg.NoOp ->
             model ! []
