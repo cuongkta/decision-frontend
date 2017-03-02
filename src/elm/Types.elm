@@ -1,6 +1,6 @@
 module Types exposing (..)
 
-import Dict exposing (Dict)
+--import Dict exposing (Dict)
 
 
 type alias User =

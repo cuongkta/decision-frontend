@@ -6,9 +6,14 @@ module Decoders
 
 import Json.Decode as JD
 import Types exposing (User)
-import Http
+
+
+--import Http
+
 import Json.Decode.Pipeline exposing (decode, required, optional, hardcoded)
-import Dict exposing (Dict)
+
+
+--import Dict exposing (Dict)
 
 
 usersDecoder : JD.Decoder (List User)

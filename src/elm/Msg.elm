@@ -13,3 +13,4 @@ type Msg
     | SetPage (Maybe Route.Location)
     | TransitMsg (Transit.Msg Msg)
     | DecisionMsg_ DecisionMsg
+    | Goto (Maybe Route.Location)

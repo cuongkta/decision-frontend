@@ -44,5 +44,8 @@ locFor path =
             [] ->
                 Just Home
 
+            [ "users" ] ->
+                Just Users
+
             _ ->
                 Nothing

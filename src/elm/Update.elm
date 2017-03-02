@@ -3,8 +3,6 @@ port module Update exposing (update, storageInput, urlUpdate, fileContentRead)
 import Model exposing (Model)
 import Navigation
 import Route exposing (Location(..))
-import Form
-import Dict exposing (Dict)
 import Transit
 import Util
 import Msg exposing (Msg(..))
@@ -71,6 +69,9 @@ update msg model =
 
         TransitMsg transitMsg ->
             Transit.tick TransitMsg transitMsg model
+
+        Goto page ->
+            Transit.start TransitMsg (SetPage page) ( 300, 200 ) model
 
         NoOp ->
             model ! []

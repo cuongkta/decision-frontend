@@ -2,12 +2,16 @@ module Model exposing (Model, initialModel)
 
 import Route
 import Transit
-import Msg exposing (Msg)
-import Types
-    exposing
-        ( User
-        , ValidateUser
-        )
+
+
+--import Msg exposing (Msg)
+{- import Types
+   exposing
+       ( User
+       , ValidateUser
+       )
+-}
+
 import Decisions.Model exposing (..)
 import Translation.Utils exposing (..)
 
